@@ -1,7 +1,7 @@
 # LeekwarsMyLeeks
 Repository for my leekwars scripts
 
-Visit my farmer on https://leekwars.com/farmer/67799
+Visit my leeks and refer to me here: https://leekwars.com/godfather/DasDZY
 
 Nita is a script for a leek with more mp and less strength and hitpoints.
 
