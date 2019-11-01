@@ -1,0 +1,44 @@
+// Register tactic
+push(aTactics, 'Bloodlust');
+
+// Select cheer
+push(aTacticCheers, 'BLOOOOOOOOOOOOD MUHAHAHAHAAR!');
+
+// tell me why to choose you
+push(aFunctionChooseTactics, function() {
+	if (hasMeleeWeapon() and getStrength() > getStrength(getNearestEnemy()) * 2 ){
+		return true;
+	}
+	return false; 
+});
+
+// run me
+push(aFunctionExecutes, function() {
+	var enemy = getNearestEnemy();
+
+	// We move towards him
+	moveToward(enemy);
+
+	// equip melee weapon if not already equipped
+	if (!isMeleeWeapon(getWeapon()) and hasMeleeWeapon()) {
+		var weapon = getMeleeWeapon();
+		// and only if i am near and have enough tp for setting and attacking
+		if(canUseWeapon(weapon, enemy) and getWeaponCost(weapon) < getTP()) {
+			setWeapon(weapon);
+		}
+	}
+
+	// We try to shoot him!
+	fireWeapons(enemy);
+
+	// use only shield afterwards to not waste tp
+	useShield();
+	
+	// and burn him if tp left
+	fireChips(enemy);
+
+	// waste tp left on heal
+	useHeal();
+
+});
+
