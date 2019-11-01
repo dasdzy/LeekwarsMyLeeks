@@ -1,0 +1,53 @@
+function moveCombatRange(enemy){
+	while (!canUseWeapon(enemy) and !canUseChip(CHIP_SPARK, enemy) and getMP() > 0) {
+		moveToward(enemy, 1);
+	}
+}
+
+function moveWeaponRange(enemy){
+	// if i use inline weapon, then sometimes i have to fight with chips
+	if (isInlineWeapon(getWeapon()) 
+	and !isMeleeWeapon(getWeapon())
+	and hasChipThatCountsAsWeapon()
+	and !isOnSameLine(getCell(getLeek()), getCell(enemy))) {
+		while (!canUseWeapon(enemy) and !canUseChip(CHIP_ROCK, enemy) and getMP() > 0) {
+			moveToward(enemy, 1);
+		}
+		return;
+	}
+	// else try to get in weapon range
+	while (!canUseWeapon(enemy) and getMP() > 0) {
+		moveToward(enemy, 1);
+	}
+}
+
+function moveFlee(){
+    var aFlee = [];
+
+	//get out of the corners
+	if (getTurn() > 2) {
+	    var iBorder = 8;
+		if ( getCellX(getCell()) > 17 - iBorder 
+		or getCellX(getCell()) < -17 + iBorder
+		or getCellY(getCell()) > 17 - iBorder 
+		or getCellY(getCell()) < -17 + iBorder ) {
+			debug('Gets out of the corner');
+			push(aFlee, getCellFromXY(-17, 0));
+			push(aFlee, getCellFromXY(0, -17));
+			push(aFlee, getCellFromXY(0, 17));
+			push(aFlee, getCellFromXY(17, 0));
+			moveAwayFromCells(aFlee);
+			return MOVE_CORNER;
+		}
+	}
+	
+	//get away from enemies
+	for (var sEnemy in getEnemies()){
+		push(aFlee, getCell(sEnemy));
+	}
+	moveAwayFromCells(aFlee);
+}
+
+function moveBack(){
+	moveAwayFromLeeks(getEnemies());
+}
