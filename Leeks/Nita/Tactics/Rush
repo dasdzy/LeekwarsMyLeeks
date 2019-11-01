@@ -1,0 +1,46 @@
+// Register tactic
+push(aTactics, 'Rush');
+
+// Select cheer
+push(aTacticCheers, 'Close combat rush!');
+
+// tell me why to choose you
+push(aFunctionChooseTactics, function() {
+	return true; //default tactic
+});
+
+// run me
+push(aFunctionExecutes, function() {
+	var enemy = getNearestEnemy();
+
+	// use tools if you can
+	useTools();
+
+	// We move towards him
+	moveWeaponRange(enemy);
+
+	// We try to shoot him!
+	fireWeapons(enemy);
+
+	// and burn him
+	fireChips(enemy);
+
+	// we try to flee
+	var bCorner = moveFlee();
+	
+	// is my tactic okay? See in early turn or on loss of life
+	if (getTurn() == 6 or getLife() / getTotalLife() < 0.5) { 
+		// i am more fuckd than enemy
+		if (getLife() / getTotalLife() < getLife(enemy) / getTotalLife(enemy)) {
+			setTacticByName('Sniper');
+		}		
+	}
+	
+	//maybe go berzerk
+	if (hasMeleeWeapon()) {
+		if (bCorner or getTurn() == 58) {
+			setTacticByName('Bloodlust');
+		}
+	}
+
+});
