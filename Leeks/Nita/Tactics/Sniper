@@ -1,0 +1,47 @@
+// Register tactic cheer
+push(aTactics, 'Sniper');
+
+// Register tactic cheer
+push(aTacticCheers, 'Sniper power!');
+
+// tell me why to choose you
+push(aFunctionChooseTactics, function() {
+	if (getStrength() * 2 < getStrength(getNearestEnemy())){
+		return true;
+	}
+	return false; 
+});
+
+// run me
+push(aFunctionExecutes, function() {
+	var enemy = getNearestEnemy();
+
+	// use tools if you can
+	useTools();
+
+	// We move towards him
+	moveCombatRange(enemy);
+
+	// We try to shoot him!
+	fireWeapons(enemy);
+
+	// and burn him
+	fireChips(enemy);
+
+	// we try to flee
+	var bCorner = moveFlee();
+	
+	// is my tactic okay?
+	if (getLife() / getTotalLife() < 0.5) { 
+		// i am more fuckd than enemy
+		if (getLife() / getTotalLife() < getLife(enemy) / getTotalLife(enemy)) {
+			setTacticByName('Rush');
+		}		
+	}
+	
+	// if in corner or fight is taking too long, make it quick.
+	if(bCorner or getTurn() == 58) {
+		forceTacticByName('Rush');
+	}
+	
+});
