@@ -1,0 +1,29 @@
+function chooseTactic() {
+	for (var i = 0; i < count(aTactics); i++){
+		if (aFunctionChooseTactics[i]()) {
+			return i;
+		}
+	}
+	debugW('No tactic selected, default selected');
+	return count(aTactics) - 1;
+}
+
+function forceTacticByName(sTactic) {
+	// only change tactic once in game
+	for (var i = 0; i < count(aTactics); i++){
+		if (aTactics[i] == sTactic) {
+			iTactic = i;
+			bTacticChanged = true;
+			debug('Set tactic to ' + sTactic);
+			return; 
+		}
+	}
+	debugW('Tactic ' + sTactic + ' not found');
+	iTactic = null;
+}
+
+function setTacticByName(sTactic) {
+	// only change tactic once in game
+    if (bTacticChanged) return;
+    forceTacticByName(sTactic);
+}
