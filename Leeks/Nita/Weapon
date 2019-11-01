@@ -1,0 +1,61 @@
+function fireWeapons(enemy) {
+	while (canUseWeapon(enemy) and getTP() >= getWeaponCost(getWeapon())) {
+		useWeapon(enemy);	
+	}
+}
+
+function hasMeleeWeapon() {
+	for (var weapon in getWeapons()) {
+		if (isMeleeWeapon(weapon)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function hasChipThatCountsAsWeapon() {
+	var aWeapons = [CHIP_ROCK, CHIP_FLAME];
+	for (var chip in getChips()) {
+		if (inArray(aWeapons, chip)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function isMeleeWeapon(weapon) {
+	return inArray(getMeleeWeapons(), weapon);
+}
+
+function getMeleeWeapons() {
+	return [WEAPON_AXE, WEAPON_BROADSWORD, WEAPON_KATANA];
+}
+
+function getMeleeWeapon() {
+	for (var weapon in getWeapons()) {
+		if (isMeleeWeapon(weapon)) {
+			return weapon;
+		}
+	}
+	debugW('Melee weapon not found');
+}
+
+//------copied---------------
+
+function getWeaponAverageDamage(weapon)
+{
+	var effect = getDamageEffect(weapon);
+	return (effect[1] + effect[2]) / 2;
+}
+
+function getDamageEffect(weapon)
+{
+	// [type, min, max, turns, targets]
+	var effects = getWeaponEffects(weapon);
+	
+	for (var i = 0; i < count(effects); i++)
+		if (effects[i][0] == EFFECT_DAMAGE)
+			return effects[i];
+	
+	return null;
+}
