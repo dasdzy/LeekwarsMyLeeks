@@ -9,6 +9,7 @@ For those wondering:
 - Yes, this is a basic abstraction, hope that helps many users.
 - No, you won't find the holy grail here. All movement scripts are still pretty basic.
 - Most scripts depend on maximum level 39.
+- Most files will appear to have errors. As long as Main is okay, everything is fine. This is a lack in interpreting the includes.
 
 Feel free to create branches and put your updates there. You also may link your branch to your leekwars farmer, so you do not have to create a repository by yourself.
 
