@@ -1,0 +1,42 @@
+function fireChips(enemy){
+	//most costs first
+	var aChipOrder = [CHIP_FLAME, CHIP_ROCK, CHIP_ICE, CHIP_SPARK, CHIP_PEBBLE];
+	for (var sChip in aChipOrder) {
+		while (canUseChip(sChip, enemy) and getTP() >= getChipCost(sChip) and !getCooldown(sChip)) {
+			useChip(sChip, enemy);
+		}
+	}
+}
+
+function useTools(){
+	useHeal();
+	useShield();
+}
+
+function useHeal(){
+//most costs first
+	var aChipOrder = [CHIP_CURE, CHIP_BANDAGE];
+	for (var sChip in aChipOrder) {
+		//if it is usable
+		if (canUseChip(sChip, getLeek())) {
+			//and i am hurt enough
+			if (getLife() < getTotalLife() - 50) {
+				//and did not receive much damage so i do not waste tp
+				if (iLifeLastRound - getLife() < getTotalLife() / 4) {
+					useChip(sChip, getLeek());
+				}
+			}
+		}
+	}
+}
+
+function useShield(){
+	var aChipOrder = [CHIP_SHIELD, CHIP_HELMET];
+	for (var sChip in aChipOrder) {
+		if (canUseChip(sChip, getLeek())) {
+			if (getTurn() > 1) {
+				useChip(sChip, getLeek());
+			}
+		}
+	}
+}
