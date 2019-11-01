@@ -1,0 +1,73 @@
+//global vars do not reset every turn
+global iTactic = null;
+global iTacticLastRound = null;
+global bTacticChanged = false;
+global iLifeLastRound = getLife();
+
+//constants
+global MOVE_CORNER = 'MOVE_CORNER';
+
+//manually reset these global vars every turn
+global aTactics = [];				aTactics = [];
+global aTacticCheers = [];			aTacticCheers = [];
+global aFunctionExecutes = [];		aFunctionExecutes = [];
+global aFunctionChooseTactics = []; aFunctionChooseTactics = [];
+
+//default includes
+include ('Tactic');
+include ('Weapon');
+include ('Chips');
+include ('Move');
+include ('Leek');
+
+//include tactics
+include ('Tactics/Sniper');
+include ('Tactics/Bloodlust');
+include ('Tactics/Rush');
+
+//debug situation
+debug('Checks distance to enemy: ' + getDistance(getCell(getLeek()), getCell(getNearestEnemy())));
+debug('Do I have melee weapon: ' + hasMeleeWeapon());
+
+//equip start weapon
+if (getWeapon() == null) {
+	if(count(getWeapons()) == 0) {
+		setWeapon(getWeapons()[0]);
+	} else {
+		if (isMeleeWeapon(getWeapons()[0])) {
+			setWeapon(getWeapons()[1]);
+		} else {
+			setWeapon(getWeapons()[0]);
+		}
+	}
+}
+
+//choose tactic
+if (iTactic === null) {
+	iTactic = chooseTactic();	
+	iTacticLastRound = iTactic;
+}
+
+// if i am standing next to enemy, go berzerk
+if (hasMeleeWeapon() and getLeekDistance(getNearestEnemy()) < 3) {
+	forceTacticByName('Bloodlust');
+}
+
+//brag
+if (iTactic != iTacticLastRound or getTurn() == 1) {
+	say(aTacticCheers[iTactic]);
+}
+
+//remember values before fight
+iTacticLastRound = iTactic;
+
+//execute new tactic
+aFunctionExecutes[iTactic]();
+
+//cheer
+if (getEnemiesLife() < 1){
+	say('That was a mess!');
+}
+
+//remember values of this round
+iLifeLastRound = getLife();
