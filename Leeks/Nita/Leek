@@ -1,0 +1,6 @@
+function getLeekDistance(enemy) {
+	if (!enemy or isDead(enemy)) {
+		return 100;
+	}
+	return getDistance(getCell(getLeek()), getCell(enemy));
+}
