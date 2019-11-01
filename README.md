@@ -3,7 +3,7 @@ Repository for my leekwars scripts
 
 Visit my farmer on https://leekwars.com/farmer/67799
 
-This is a script for a leek with more mp and less strength and hitpoints.
+Nita is a script for a leek with more mp and less strength and hitpoints.
 
 For those wondering:
 - Yes, this is a basic abstraction, hope that helps many users.
